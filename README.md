@@ -31,15 +31,17 @@ sudo apt-get install -y \
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
 sudo apt-get install -y nodejs
+node -v
+npm -v
 curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 sudo apt-get update && sudo apt-get install yarn
-node -v
-npm -v
+
 
 ## Install code-server
-yarn global add code-server
--- get code-server password
+yarn global add code-server --unsafe-perm (this might take upwards of 10 minutes - build step takes a while)
+export PATH=$PATH:~/.yarn/bin
+Get code-server password
 code-server
 
 
