@@ -38,29 +38,30 @@ sudo apt-get install -y \
 * `sudo apt-get install -y nodejs`
 * Verify node install: `node -v`
 * Verify npm: `npm -v`
-* `curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`
-* `echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
-* `sudo apt-get update && sudo apt-get install yarn`
+* Install yarn: 
+  * `curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`
+  * `echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
+  * `sudo apt-get update && sudo apt-get install yarn`
 
 ## Install code-server
 * `yarn global add code-server --unsafe-perm`
   * This might take upwards of 10 minutes - the build takes a while
 * Add yarn to $PATH: `export PATH=$PATH:~/.yarn/bin`  >>>>>>>FIND WAY TO ADD ON REBOOT
 * `echo $PATH`
-* Get code-server password: `cat .config/code-server/config.yaml`
 * `code-server --host 0.0.0.0`    >>>>>>>FIND WAY TO START ON REBOOT
+* Open a new terminal window, SSH in, & get code-server password: `cat .config/code-server/config.yaml`
+* Try logging in to codes-server via another machine's browser using: `pi_local_ip:8080`
 > You can stop here if you only want to access on your local network!
 
 ## Install nginx & firewall
 * `sudo apt update`
-* `sudo apt install nginx`
-* `systemctl status nginx`
+* `sudo apt install nginx -y`
+* Verify nginx is working: `systemctl status nginx`
 * `sudo apt-get install ufw -y`
-* `sudo ufw allow 'Nginx HTTP'`
 * `sudo ufw allow ssh`
-* --sudo ufw allow 8080
-* --sudo ufw allow http?
-* --sudo ufw allow 80?
+* no--sudo ufw allow 8080
+* no--sudo ufw allow http?
+* no--sudo ufw allow 80?
 * `sudo ufw allow 'Nginx HTTP'`
 * `sudo ufw enable`
 * `sudo ufw reload`
@@ -70,7 +71,7 @@ sudo apt-get install -y \
 * Forward port for Pi IP on your network to 8080
 * Map custom domain A record (ie codeserver.mydomain.com) to your external-facing IP
 * Update nginx config: `sudo nano /etc/nginx/nginx.conf`
-  * Uncomment server_names_hash_bucket_size and update to 32, save
+  * Uncomment `server_names_hash_bucket_size` and update value to 64, save
 * Create nginx code-server config: `sudo nano /etc/nginx/sites-available/code-server.conf`
 ```
 server {
@@ -88,13 +89,13 @@ server {
 }
 ```
 * Create symlink: `sudo ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/code-server.conf`
+* `sudo reboot`
 * Validate: `sudo nginx -t`
 * Restart nginx: `sudo systemctl restart nginx`
 
-## Install Certbot
-* sudo apt install python-certbot-nginx
-* sudo ufw allow https
-* sudo ufw reload
-
-****add remaining instructions
-
+## Install Certbot (not working yet)
+* `sudo apt install python-certbot-nginx -y`
+* `sudo ufw allow https`
+* `sudo ufw reload`
+* Request a cert; provide your email: `sudo certbot --nginx -d codeserver.mydomain.com`
+  * Select option 1 to disable https auto redirect (in case there are any issues)
