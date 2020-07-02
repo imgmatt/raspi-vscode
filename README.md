@@ -1,22 +1,24 @@
 # raspi-vscode
 
+Resources
 https://github.com/cdr/code-server/blob/master/doc/install.md
 https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
 https://www.digitalocean.com/community/tutorials/how-to-set-up-the-code-server-cloud-ide-platform-on-ubuntu-18-04
-**** change ssh password
 
-Install Raspbian
-Install headless files
+Plug SD card into computer, install Raspbian via Raspberry Pi Imager (https://www.raspberrypi.org/downloads/)
+Make it headless if connecting via wifi
+Put SD card into Pi, power on
+ssh pi@internal-pi-ip
 passwd
 sudo raspi-config
   Interfacing Options - VNC - Enable
   Advanced - Expand filesystem 
-sudo apt update
-sudo apt upgrade
-sudo apt install realvnc-vnc-server realvnc-vnc-viewer
 sudo reboot
+sudo apt update
+sudo apt upgrade  (will take a few minutes)
+sudo apt install realvnc-vnc-server realvnc-vnc-viewer
 
-install node & dependencies:
+install node 12 & dependencies:
 sudo apt-get install -y \
   build-essential \
   pkg-config \
@@ -32,23 +34,17 @@ sudo apt-get update && sudo apt-get install yarn
 node -v
 npm -v
 
+yarn global add code-server
+# get code-server password
+code-server
 
 
 doesnt work:
 mkdir ~/code-server
 cd ~/code-server
-Copy http://69.195.146.38/code-server/code-server-deftdawg-raspbian-9-vsc1.41.1-linux-arm-built.tar.bz2
-extract
-Run ./cs-on-pi0w.sh
-cd node-v12.14.1-linux-armv6l/
-sudo cp -R * /usr/local/
 export PATH=$PATH:/usr/local/bin
-node -v
-npm -v
-
 sudo npm install -g code-server --unsafe-perm
 code-server 
-# 4766ac963bb8fb91794707c2
 
 Install nginx:
 sudo apt update
