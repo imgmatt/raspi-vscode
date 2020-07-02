@@ -17,9 +17,9 @@ Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero
   Interfacing Options - VNC - Enable
   Advanced - Expand filesystem 
 * `sudo reboot`
-* sudo apt update
-* sudo apt upgrade  (will take a few minutes)
-* sudo apt install realvnc-vnc-server realvnc-vnc-viewer
+* `sudo apt update`
+* `sudo apt upgrade -y`  (will take a few minutes)
+* Install VNC to access desktop remotely: `sudo apt install realvnc-vnc-server realvnc-vnc-viewer`
 * Create non superuser - sudo adduser yournewuser
 
 ## Install node 12 & dependencies
@@ -68,10 +68,8 @@ Map new domain A record (ie codeserver.xxxxx.com) to external IP
 sudo nano /etc/nginx/nginx.conf
 Uncomment server_names_hash_bucket_size and update to 32, save
 
-Create nginx config:
-sudo nano /etc/nginx/sites-available/code-server.conf
-
-server {
+Create nginx config: `sudo nano /etc/nginx/sites-available/code-server.conf`
+```server {
     listen 80;
     listen [::]:80;
 
@@ -83,7 +81,7 @@ server {
       proxy_set_header Connection upgrade;
       proxy_set_header Accept-Encoding gzip;
     }
-}
+}```
 
 Create symlink: sudo ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/code-server.conf
 Validate: sudo nginx -t
