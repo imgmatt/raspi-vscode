@@ -16,8 +16,8 @@ Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero
 * Login: `ssh pi@internal-pi-ip`
 * Change the password: `passwd`
 * Update some Pi settings: `sudo raspi-config`
-  Interfacing Options - VNC - Enable
-  Advanced - Expand filesystem 
+  * Interfacing Options - VNC - Enable
+  * Advanced - Expand Filesystem 
 * `sudo reboot`
 * `sudo apt update`
 * `sudo apt upgrade -y`  (will take a few minutes)
@@ -48,7 +48,7 @@ sudo apt-get install -y \
 * `echo $PATH`
 * Get code-server password: `cat .config/code-server/config.yaml`
 * `code-server --host 0.0.0.0`    >>>>>>>FIND WAY TO START ON REBOOT
-You can stop here if you only want to access on your local network!
+> You can stop here if you only want to access on your local network!
 
 ## Install nginx & firewall
 * `sudo apt update`
