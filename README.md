@@ -12,11 +12,11 @@ Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero
 * Make it headless if connecting via wifi (https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html)
 * Eject, put SD card into Pi, power on
 * ssh pi@internal-pi-ip
-* Change the password: passwd
-* sudo raspi-config
+* Change the password: `passwd`
+* Update some Pi settings: `sudo raspi-config`
   Interfacing Options - VNC - Enable
   Advanced - Expand filesystem 
-* sudo reboot
+* `sudo reboot`
 * sudo apt update
 * sudo apt upgrade  (will take a few minutes)
 * sudo apt install realvnc-vnc-server realvnc-vnc-viewer
@@ -50,7 +50,7 @@ code-server --host 0.0.0.0    >>>>>>>FIND WAY TO START ON REBOOT
 Forward port for Pi IP on network for 8080
 
 ### Install nginx & firewall
-`sudo apt update
+sudo apt update
 sudo apt install nginx
 systemctl status nginx
 sudo apt-get install ufw -y
@@ -62,7 +62,7 @@ sudo ufw allow ssh
 --sudo ufw allow 'Nginx HTTP'?
 sudo ufw enable
 sudo ufw reload
-sudo ufw status`
+sudo ufw status
 
 Map new domain A record (ie codeserver.xxxxx.com) to external IP
 sudo nano /etc/nginx/nginx.conf
