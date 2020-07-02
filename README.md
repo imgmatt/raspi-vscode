@@ -1,5 +1,7 @@
 # Install code-server (VSCode) on Raspberry Pi
 
+You can use this guide to configure a Raspberry Pi to run VScode via code-server and access on a remote network on any device (iPads, yay!), mapped to a domain name of your choosing. 
+
 ## Resources
 https://github.com/cdr/code-server/blob/master/doc/install.md
 https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
@@ -19,7 +21,7 @@ Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero
 * `sudo reboot`
 * `sudo apt update`
 * `sudo apt upgrade -y`  (will take a few minutes)
-* Install VNC to access desktop remotely: `sudo apt install realvnc-vnc-server realvnc-vnc-viewer`
+* Install VNC to access desktop remotely: `sudo apt install realvnc-vnc-server realvnc-vnc-viewer -y`
 * Create non superuser - `sudo adduser yournewuser`
 
 ## Install node 12 & dependencies
