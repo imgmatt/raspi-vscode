@@ -25,6 +25,7 @@ Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero
 * Create non superuser - `sudo adduser yournewuser`
 
 ## Install node 12 & dependencies
+There are apparently issues with other versions of node on ARMV6/V7 devices, so be sure to use node 12:
 ```
 sudo apt-get install -y \
   build-essential \
@@ -35,8 +36,8 @@ sudo apt-get install -y \
 ```
 * `curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -`
 * `sudo apt-get install -y nodejs`
-* `node -v`
-* `npm -v`
+* Verify node install: `node -v`
+* Verify npm: `npm -v`
 * `curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`
 * `echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
 * `sudo apt-get update && sudo apt-get install yarn`
@@ -47,8 +48,9 @@ sudo apt-get install -y \
 * `echo $PATH`
 * Get code-server password: `cat .config/code-server/config.yaml`
 * `code-server --host 0.0.0.0`    >>>>>>>FIND WAY TO START ON REBOOT
+You can stop here if you only want to access on your local network!
 
-### Install nginx & firewall
+## Install nginx & firewall
 * `sudo apt update`
 * `sudo apt install nginx`
 * `systemctl status nginx`
