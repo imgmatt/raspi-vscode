@@ -43,7 +43,8 @@ sudo apt-get install -y \
 * `sudo apt-get update && sudo apt-get install yarn`
 
 ## Install code-server
-* `yarn global add code-server --unsafe-perm` (this might take upwards of 10 minutes - build step takes a while)
+* `yarn global add code-server --unsafe-perm`
+  * This might take upwards of 10 minutes - the build takes a while
 * Add yarn to $PATH: `export PATH=$PATH:~/.yarn/bin`  >>>>>>>FIND WAY TO ADD ON REBOOT
 * `echo $PATH`
 * Get code-server password: `cat .config/code-server/config.yaml`
@@ -66,17 +67,17 @@ sudo apt-get install -y \
 * `sudo ufw status`
 
 ## Make accessible over the internet
-* Forward port for Pi IP on network for 8080
-* Map new domain A record (ie codeserver.xxxxx.com) to external IP
-* `sudo nano /etc/nginx/nginx.conf`
-* Uncomment server_names_hash_bucket_size and update to 32, save
-* Create nginx config: `sudo nano /etc/nginx/sites-available/code-server.conf`
+* Forward port for Pi IP on your network to 8080
+* Map custom domain A record (ie codeserver.mydomain.com) to your external-facing IP
+* Update nginx config: `sudo nano /etc/nginx/nginx.conf`
+  * Uncomment server_names_hash_bucket_size and update to 32, save
+* Create nginx code-server config: `sudo nano /etc/nginx/sites-available/code-server.conf`
 ```
 server {
     listen 80;
     listen [::]:80;
 
-    server_name code-server.your-domain;
+    server_name codeserver.mydomain.com;
 
     location / {
       proxy_pass http://localhost:8080/;
