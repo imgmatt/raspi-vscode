@@ -31,44 +31,42 @@ sudo apt-get install -y \
   libxkbfile-dev \
   libsecret-1-dev
 ```
-`curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -`
-`sudo apt-get install -y nodejs`
-`node -v`
-`npm -v`
-`curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`
-`echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
-`sudo apt-get update && sudo apt-get install yarn`
+* `curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -`
+* `sudo apt-get install -y nodejs`
+* `node -v`
+* `npm -v`
+* `curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -`
+* `echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
+* `sudo apt-get update && sudo apt-get install yarn`
 
 ## Install code-server
-`yarn global add code-server --unsafe-perm` (this might take upwards of 10 minutes - build step takes a while)
-Add yarn to $PATH: `export PATH=$PATH:~/.yarn/bin`  >>>>>>>FIND WAY TO ADD ON REBOOT
-`echo $PATH`
-Get code-server password: `cat .config/code-server/config.yaml`
-`code-server --host 0.0.0.0`    >>>>>>>FIND WAY TO START ON REBOOT
-
-## Make accessible over the internet
-Forward port for Pi IP on network for 8080
+* `yarn global add code-server --unsafe-perm` (this might take upwards of 10 minutes - build step takes a while)
+* Add yarn to $PATH: `export PATH=$PATH:~/.yarn/bin`  >>>>>>>FIND WAY TO ADD ON REBOOT
+* `echo $PATH`
+* Get code-server password: `cat .config/code-server/config.yaml`
+* `code-server --host 0.0.0.0`    >>>>>>>FIND WAY TO START ON REBOOT
 
 ### Install nginx & firewall
-sudo apt update
-sudo apt install nginx
-systemctl status nginx
-sudo apt-get install ufw -y
-sudo ufw allow 'Nginx HTTP'
-sudo ufw allow ssh
---sudo ufw allow 8080
---sudo ufw allow http?
---sudo ufw allow 80?
---sudo ufw allow 'Nginx HTTP'?
-sudo ufw enable
-sudo ufw reload
-sudo ufw status
+* `sudo apt update`
+* `sudo apt install nginx`
+* `systemctl status nginx`
+* `sudo apt-get install ufw -y`
+* `sudo ufw allow 'Nginx HTTP'`
+* `sudo ufw allow ssh`
+* --sudo ufw allow 8080
+* --sudo ufw allow http?
+* --sudo ufw allow 80?
+* `sudo ufw allow 'Nginx HTTP'`
+* `sudo ufw enable`
+* `sudo ufw reload`
+* `sudo ufw status`
 
-Map new domain A record (ie codeserver.xxxxx.com) to external IP
-sudo nano /etc/nginx/nginx.conf
-Uncomment server_names_hash_bucket_size and update to 32, save
-
-Create nginx config: `sudo nano /etc/nginx/sites-available/code-server.conf`
+## Make accessible over the internet
+* Forward port for Pi IP on network for 8080
+* Map new domain A record (ie codeserver.xxxxx.com) to external IP
+* `sudo nano /etc/nginx/nginx.conf`
+* Uncomment server_names_hash_bucket_size and update to 32, save
+* Create nginx config: `sudo nano /etc/nginx/sites-available/code-server.conf`
 ```
 server {
     listen 80;
@@ -84,14 +82,14 @@ server {
     }
 }
 ```
+* Create symlink: `sudo ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/code-server.conf`
+* Validate: `sudo nginx -t`
+* Restart nginx: `sudo systemctl restart nginx`
 
-Create symlink: `sudo ln -s /etc/nginx/sites-available/code-server.conf /etc/nginx/sites-enabled/code-server.conf`
-Validate: `sudo nginx -t`
-Restart nginx: `sudo systemctl restart nginx`
+## Install Certbot
+* sudo apt install python-certbot-nginx
+* sudo ufw allow https
+* sudo ufw reload
 
-Install Certbot:
-sudo apt install python-certbot-nginx
-sudo ufw allow https
-sudo ufw reload
 ****add remaining instructions
 
