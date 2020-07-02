@@ -9,10 +9,10 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-the-code-server-c
 Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero W is not recommended due to low memory & ARMV6
 
 * Plug SD card into computer, install Raspbian via Raspberry Pi Imager (https://www.raspberrypi.org/downloads/)
-* Make it headless if connecting via wifi
-* Put SD card into Pi, power on
+* Make it headless if connecting via wifi (https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html)
+* Eject, put SD card into Pi, power on
 * ssh pi@internal-pi-ip
-* passwd
+* Change the password: passwd
 * sudo raspi-config
   Interfacing Options - VNC - Enable
   Advanced - Expand filesystem 
@@ -49,13 +49,10 @@ code-server --host 0.0.0.0    >>>>>>>FIND WAY TO START ON REBOOT
 ## Make accessible over the internet
 Forward port for Pi IP on network for 8080
 
-
-Install nginx:
-sudo apt update
+### Install nginx & firewall
+`sudo apt update
 sudo apt install nginx
 systemctl status nginx
-
-Install ufw & firewall rules:
 sudo apt-get install ufw -y
 sudo ufw allow 'Nginx HTTP'
 sudo ufw allow ssh
@@ -65,7 +62,7 @@ sudo ufw allow ssh
 --sudo ufw allow 'Nginx HTTP'?
 sudo ufw enable
 sudo ufw reload
-sudo ufw status
+sudo ufw status`
 
 Map new domain A record (ie codeserver.xxxxx.com) to external IP
 sudo nano /etc/nginx/nginx.conf
