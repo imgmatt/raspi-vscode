@@ -20,6 +20,7 @@ Recommended model: at least 3B+, in case you need to use ethernet port/USB. Zero
 * sudo apt update
 * sudo apt upgrade  (will take a few minutes)
 * sudo apt install realvnc-vnc-server realvnc-vnc-viewer
+* Create non superuser - sudo adduser yournewuser
 
 ## Install node 12 & dependencies
 sudo apt-get install -y \
@@ -40,17 +41,14 @@ sudo apt-get update && sudo apt-get install yarn
 
 ## Install code-server
 yarn global add code-server --unsafe-perm (this might take upwards of 10 minutes - build step takes a while)
-export PATH=$PATH:~/.yarn/bin
-Get code-server password
-code-server
+Add yarn to $PATH - export PATH=$PATH:~/.yarn/bin  >>>>>>>FIND WAY TO ADD ON REBOOT
+echo $PATH
+Get code-server password - cat .config/code-server/config.yaml
+code-server --host 0.0.0.0    >>>>>>>FIND WAY TO START ON REBOOT
 
+## Make accessible over the internet
+Forward port for Pi IP on network for 8080
 
-doesnt work:
-mkdir ~/code-server
-cd ~/code-server
-export PATH=$PATH:/usr/local/bin
-sudo npm install -g code-server --unsafe-perm
-code-server 
 
 Install nginx:
 sudo apt update
@@ -60,10 +58,18 @@ systemctl status nginx
 Install ufw & firewall rules:
 sudo apt-get install ufw -y
 sudo ufw allow 'Nginx HTTP'
+sudo ufw allow ssh
+--sudo ufw allow 8080
+--sudo ufw allow http?
+--sudo ufw allow 80?
+--sudo ufw allow 'Nginx HTTP'?
+sudo ufw enable
 sudo ufw reload
 sudo ufw status
 
 Map new domain A record (ie codeserver.xxxxx.com) to external IP
+sudo nano /etc/nginx/nginx.conf
+Uncomment server_names_hash_bucket_size and update to 32, save
 
 Create nginx config:
 sudo nano /etc/nginx/sites-available/code-server.conf
@@ -92,43 +98,3 @@ sudo ufw allow https
 sudo ufw reload
 ****add remaining instructions
 
-
-
-
-
-
-
-
-didnt work:
-
-curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-sudo apt-get install -y nodejs
-curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt-get update && sudo apt-get install yarn
-
-mkdir ~/code-server
-cd ~/code-server
-wget http://69.195.146.38/code-server/code-server-deftdawg-raspbian-9-vsc1.41.1-linux-arm-built.tar.bz2
-bzip2 -dc code-server-deftdawg-raspbian-9-vsc1.41.1-linux-arm-built.tar.bz2 | tar xvf -
-cp -r code-server-deftdawg-raspbian-9-vsc1.41.1-linux-arm-built/ code-server
-sudo cp -r code-server/ /usr/lib/code-server
-sudo ln -s /usr/lib/code-server /usr/bin/code-server
-sudo nano /lib/systemd/system/code-server.service
-
-[Unit]
-Description=code-server
-After=nginx.service
-
-[Service]
-Type=simple
-Environment=PASSWORD=your_password
-ExecStart=/usr/bin/code-server --bind-addr 127.0.0.1:8080 --user-data-dir /var/lib/code-server --auth password
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-
-sudo mkdir /var/lib/code-server
-sudo systemctl start code-server
-sudo systemctl status code-server
